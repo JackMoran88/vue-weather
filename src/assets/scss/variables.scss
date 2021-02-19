@@ -1,0 +1,59 @@
+$card__bg: #e1e7f3;
+$card__text: #767e89;
+$btn__bg: #9dabc0;
+
+$card__widht: 300px;
+
+.button, .buttons, .label {
+  margin: 0 !important;
+}
+
+
+.snippeter {
+  box-shadow: 2px 2px 4px rgba(56, 53, 45, .3), -2px -4px 4px hsla(0, 0%, 100%, .5), inset 1px 1px 1px rgba(224, 234, 249, .5);
+  border-radius: 65px;
+  overflow: hidden;
+  margin: 0;
+}
+
+
+
+
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
+}
+
+
+.zoom-enter-active{
+  animation-delay: .5s;
+
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-name: zoom;
+}
+.zoom-leave-active {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-name: zoom;
+}
+
+.zoom-leave-active {
+  animation-direction: reverse;
+}
+
+@keyframes zoom {
+  from {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
