@@ -1,59 +1,178 @@
+$bg: #e1e7f3;
+//$bg: #e0eaf9;
+//$bg: #E0E0E0;
+
 $card__bg: #e1e7f3;
 $card__text: #767e89;
 $btn__bg: #9dabc0;
 
 $card__widht: 300px;
 
+
+$shadow-main: 2px 2px 4px rgba(56, 53, 45, .3), -2px -4px 4px hsla(0, 0%, 100%, .5), inset 1px 1px 1px rgba(224, 234, 249, .5);
+$shadow-second: 4px 4px 8px rgba(56, 53, 85, 0.3), -4px -4px 8px rgba(255, 255, 255, 0.5), inset 1px 1px 1px rgba(224, 234, 249, 0.5);
+
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+}
+
 .button, .buttons, .label {
   margin: 0 !important;
 }
 
 
+
 .snippeter {
-  box-shadow: 2px 2px 4px rgba(56, 53, 45, .3), -2px -4px 4px hsla(0, 0%, 100%, .5), inset 1px 1px 1px rgba(224, 234, 249, .5);
+  box-shadow: $shadow-main;
   border-radius: 65px;
   overflow: hidden;
   margin: 0;
 }
 
 
+// weather animations
+@keyframes snowflakes-fall {
+  0% {
+    top: -10%
+  }
+  100% {
+    top: 100%
+  }
+}
+
+@keyframes snowflakes-shake {
+  0% {
+    transform: translateX(0px)
+  }
+  50% {
+    transform: translateX(80px)
+  }
+  100% {
+    transform: translateX(0px)
+  }
+}
 
 
 
+.snowflakes {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.snowflake {
+  position: absolute;
+  top: -10%;
+  z-index: 9999;
+  user-select: none;
+  cursor: default;
+  animation-name: snowflakes-fall, snowflakes-shake;
+  animation-duration: 10s, 3s;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+  animation-play-state: running, running
+}
+
+
+.snowflake:nth-of-type(0) {
+  left: 1%;
+  animation-delay: 0s, 0s
+}
+
+.snowflake:nth-of-type(1) {
+  left: 10%;
+  animation-delay: 1s, 1s
+}
+
+.snowflake:nth-of-type(2) {
+  left: 20%;
+  animation-delay: 6s, .5s
+}
+
+.snowflake:nth-of-type(3) {
+  left: 30%;
+  animation-delay: 4s, 2s
+}
+
+.snowflake:nth-of-type(4) {
+  left: 40%;
+  animation-delay: 2s, 2s
+}
+
+.snowflake:nth-of-type(5) {
+  left: 50%;
+  animation-delay: 8s, 3s
+}
+
+.snowflake:nth-of-type(6) {
+  left: 60%;
+  animation-delay: 6s, 2s
+}
+
+.snowflake:nth-of-type(7) {
+  left: 70%;
+  animation-delay: 2.5s, 1s
+}
+
+.snowflake:nth-of-type(8) {
+  left: 80%;
+  animation-delay: 1s, 0s
+}
+
+.snowflake:nth-of-type(9) {
+  left: 90%;
+  animation-delay: 3s, 1.5s
+}
+
+
+
+
+// transitions
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+  transition: opacity 1s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */
+{
   opacity: 0;
 }
 
 
-.zoom-enter-active{
+.translateY-enter-active {
   animation-delay: .5s;
 
-  animation-duration: 0.5s;
+  animation-duration: .5s;
   animation-fill-mode: both;
-  animation-name: zoom;
-}
-.zoom-leave-active {
-  animation-duration: 0.5s;
-  animation-fill-mode: both;
-  animation-name: zoom;
+  animation-name: translateY;
 }
 
-.zoom-leave-active {
+.translateY-leave-active {
+
+  animation-duration: .5s;
+  animation-fill-mode: both;
+  animation-name: translateY;
+}
+
+.translateY-leave-active {
   animation-direction: reverse;
 }
 
-@keyframes zoom {
+@keyframes translateY {
   from {
     opacity: 0;
-    transform: scale3d(0.3, 0.3, 0.3);
+    transform: translateY(100%);
   }
 
+  75% {
+    opacity: .5;
+  }
   100% {
     opacity: 1;
   }
 }
+
 

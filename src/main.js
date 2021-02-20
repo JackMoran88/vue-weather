@@ -13,11 +13,12 @@ import {
     faRedoAlt,
     faSearch,
     faTimes,
-    faTrashAlt
+    faTrashAlt,
+    faChevronLeft
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
-library.add(faRedoAlt, faTrashAlt, faSearch, faPlus, faTimes, faExclamation, faInfo)
+library.add(faRedoAlt, faTrashAlt, faSearch, faPlus, faTimes, faExclamation, faInfo, faChevronLeft)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 

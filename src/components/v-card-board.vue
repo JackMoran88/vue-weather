@@ -1,7 +1,8 @@
 <template>
     <div class="flex-container">
+        <h3 v-if="WEATHER.length <= 0">Чтобы добавить город, введить название в строке поиска</h3>
         <v-card
-                v-if="WEATHER.length > 0"
+                v-else
                 v-for="city in WEATHER"
                 :weather="city"
         />
@@ -56,3 +57,5 @@
 
 
 </style>
+
+

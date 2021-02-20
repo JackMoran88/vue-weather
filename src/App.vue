@@ -8,14 +8,15 @@
 
 <script>
     import MainLayout from "@/layouts/MainLayout";
+    import DetailLayout from "@/layouts/DetailLayout";
 
     export default {
         components: {
-            MainLayout,
+            MainLayout, DetailLayout,
         },
         computed: {
             layout() {
-               return this.$route.meta.layout || 'MainLayout'
+                return this.$route.meta.layout || 'MainLayout'
             }
         },
     }
@@ -28,30 +29,30 @@
 <style lang="scss">
     @import "assets/scss/variables.scss";
 
-    html{
+    html {
         min-height: 100%;
         height: 100%;
     }
-    body{
+
+    body {
         width: 100%;
         margin: 0;
     }
 
-    body{
-        &, & #app, & #app > *{
+    body {
+        &, & #app, & #app > * {
             min-height: 100vh;
         }
     }
 
-    #app{
+    #app {
         width: 100%;
     }
 
 
-    *{
+    * {
         box-sizing: border-box;
     }
-
 
 
 </style>

@@ -1,17 +1,22 @@
 <template>
     <form class="v-search input is-xs" v-on:submit.prevent="click">
         <input type="text" v-model="value" placeholder="Поиск">
-        <button class="button" type="submit">
-            <font-awesome-icon :icon="['fas', 'plus']"/>
-        </button>
+        <v-button
+            type="submit"
+            icon="plus"
+        />
     </form>
 </template>
 
 <script>
-    import {mapMutations, mapActions} from "vuex";
+    import { mapActions} from "vuex";
+    import vButton from '@/components/elements/buttons/v-button'
 
     export default {
         name: "v-search",
+        components:{
+            vButton,
+        },
         data() {
             return {
                 value: '',
@@ -34,21 +39,28 @@
 
     .v-search {
         display: flex;
+        padding: .3rem .6rem;
+        border-radius: 50px;
+
         background: $card__bg;
         color: $card__text;
+        box-shadow: $shadow-main;
 
         input {
             width: 100%;
+            padding: 0 1rem;
+
             border: none;
             background: transparent;
+
             font-size: 20px;
-            margin: 0;
 
             &:focus {
                 border: none;
                 outline: none;
             }
         }
+
     }
 
 </style>

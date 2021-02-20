@@ -8,7 +8,6 @@ import axios from 'axios'
 
 export default new Vuex.Store({
     state: {
-        // https://api.openweathermap.org/data/2.5/box/city?bbox=12,32,15,37,10&appid=4804898096d6c129e0a04ff8caa8eca8
         api_key: '4804898096d6c129e0a04ff8caa8eca8',
         server_url: 'https://api.openweathermap.org/data/2.5',
 
@@ -16,13 +15,13 @@ export default new Vuex.Store({
 
         weather: [],
 
+        detailed_weather: [],
+
         alerts: [],
     },
     modules: {},
     actions: {
         GET_WEATHER({commit}, query) {
-            console.log("QUERY")
-            console.log(query)
             return new Promise((resolve, reject) => {
                 return axios(`${this.state.server_url}/weather?id=${query}&appid=${this.state.api_key}&units=metric&lang=ru`,
                     {
@@ -34,13 +33,35 @@ export default new Vuex.Store({
                         resolve(resp)
                     })
                     .catch((error) => {
-                        if (error.response.data.message) {
+                        if (error.response && error.response.data.message) {
                             commit('ADD_ALERT', {type: 'error', text: error.response.data.message})
                         }
                         reject(error)
                     })
             })
         },
+
+        GET_DETAILED_WEATHER({commit}, query) {
+            return new Promise((resolve, reject) => {
+                return axios(`${this.state.server_url}/forecast?id=${query}&appid=${this.state.api_key}&units=metric&lang=ru`,
+                    {
+                        method: 'POST',
+                    }
+                )
+                    .then((resp) => {
+                        commit('SET_DETAILED_WEATHER', resp.data)
+                        resolve(resp)
+                    })
+                    .catch((error) => {
+                        if (error.response && error.response.data.message) {
+                            commit('ADD_ALERT', {type: 'error', text: error.response.data.message})
+                        }
+                        reject(error)
+                    })
+            })
+        },
+
+
         SEARCH_CITY_BY_NAME({commit}, query) {
             return new Promise((resolve, reject) => {
                 return axios(`${this.state.server_url}/weather?q=${query}&appid=${this.state.api_key}&units=metric&lang=ru`,
@@ -68,20 +89,21 @@ export default new Vuex.Store({
         WEATHER: state => {
             return state.weather
         },
+        DETAILED_WEATHER: state => {
+            return state.detailed_weather
+        },
         SELECTED: state => {
             return state.selected
         },
-
         ALERTS: state => {
             return state.alerts
         },
     },
     mutations: {
         SET_WEATHER: (state, data) => {
-
             if (state.weather.find(v => v.id === data.id)) {
-                console.log('Update city')
-                state.weather.find(v => v.id === data.id).data = data
+                let index = state.weather.indexOf(state.weather.find(v => v.id === data.id));
+                Vue.set(state.weather, index, data)
             } else {
                 console.log('New city')
                 state.weather.push(data)
@@ -89,16 +111,19 @@ export default new Vuex.Store({
                 if (!state.selected.includes(data.id.toString())) {
                     state.selected.push(data.id.toString())
                 }
-
             }
 
+            //Сортировка массива городов, по id
+            state.weather = state.weather.sort(dynamicSort('id'))
 
-            if (state.selected.length) {
-                console.log('New Cookie')
-
-                document.cookie = `selected=${state.selected}`
-            }
+            setCookie('selected', state.selected)
         },
+
+        SET_DETAILED_WEATHER: (state, data) => {
+            state.detailed_weather = data
+        },
+
+
         REMOVE_CITY: (state, data) => {
             let index = state.selected.indexOf(data.toString());
             if (index !== -1) {
@@ -109,8 +134,10 @@ export default new Vuex.Store({
                 });
 
             }
-        },
 
+            console.log(state.selected)
+            setCookie('selected', state.selected)
+        },
 
         ADD_ALERT: (state, data) => {
             console.log(data)
@@ -132,6 +159,8 @@ export default new Vuex.Store({
 
 })
 
+
+//Получение печенья по названию
 function getCookie(cookiename) {
     // Get name followed by anything except a semicolon
     var cookiestring = RegExp(cookiename + "=[^;]+").exec(document.cookie);
@@ -143,5 +172,25 @@ function getCookie(cookiename) {
     return result
 }
 
+//Назначение печенья
+function setCookie(name, value) {
+    console.log('New Cookie')
+    document.cookie = `${name}=${value.sort()}`
+}
 
+//Сортирует массив объектов по ключу
+function dynamicSort(property) {
+    let sortOrder = 1;
+    if (property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return function (a, b) {
+        /* next line works with strings and numbers,
+         * and you may want to customize it to your needs
+         */
+        let result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+}
 

@@ -1,9 +1,15 @@
 <template>
     <article class="card snippeter" @click="toggle" :class="{'detail': isOpen}">
+        <div class="card__state" :class="data.state">
+
+        </div>
+
+        <v-weather-snow v-if="data.state === 'Snow'"/>
+        <v-weather-rain v-if="data.state === 'Rain'"/>
+
 
         <div class="card__item card__item__center title">
-            {{weather.name}}
-            <span class="sub">{{weather.sys.country}}</span>
+            <span>{{weather.name}}</span>
         </div>
 
         <div class="card__item main">
@@ -23,7 +29,7 @@
             {{parseInt(weather.main.feels_like)}}&#176
         </div>
 
-        <transition name="zoom" >
+        <transition name="translateY">
             <ul class="card__item list" v-show="isOpen">
 
                 <li>
@@ -41,17 +47,26 @@
             </ul>
         </transition>
 
-        <transition name="zoom">
-            <div class="buttons card__item__bottom" v-show="!isOpen">
-                <button class="button" @click.stop="REMOVE_CITY(weather.id)">
-                    <font-awesome-icon :icon="['fas', 'trash-alt']"/>
-                </button>
+        <transition name="translateY">
+            <div class="card__buttons card__item__bottom" v-show="!isOpen">
+                <v-button @click.native.stop="REMOVE_CITY(weather.id)"
+                    icon="trash-alt"
+                />
 
-                <button class="button MORE" @click.stop="">Подробнее</button>
+                <router-link
+                        :to="{name: 'Detail', params:{id: weather.id}}"
+                >
+                    <v-button
+                        class="MORE"
+                        text="Подробнее"
+                    />
+                </router-link>
 
-                <button class="button" @click.stop="GET_WEATHER(weather.id)">
-                    <font-awesome-icon :icon="['fas', 'redo-alt']"/>
-                </button>
+
+                <v-button
+                        icon="redo-alt"
+                        @click.native.stop="GET_WEATHER(weather.id)"
+                />
             </div>
         </transition>
 
@@ -61,10 +76,17 @@
 
 <script>
     import toCapitalize from '@/filters/toCapitalize'
-    import {mapMutations, mapActions} from "vuex";
+    import {mapMutations, mapActions, mapGetters} from "vuex";
+    import vWeatherSnow from '@/components/weathers/v-weather-snow'
+    import vWeatherRain from '@/components/weathers/v-weather-rain'
+    import vButton from '@/components/elements/buttons/v-button'
+
 
     export default {
         name: "v-card",
+        components: {
+            vWeatherSnow, vWeatherRain, vButton,
+        },
         props: {
             weather: {
                 type: Object,
@@ -87,13 +109,17 @@
                     wind: {
                         speed: '',
                         deg: '',
-                    }
+                    },
+
+                    state: ''
                 }
             }
         },
         methods: {
             load() {
+                this.data.state = this.weather.weather[0].main
             },
+
 
             toggle() {
                 this.isOpen = !this.isOpen
@@ -113,10 +139,13 @@
         mounted() {
             this.load()
         },
-        watch:{
-            'weather'(){
+        computed: {
+            ...mapGetters(['WEATHER'])
+        },
+        watch: {
+            'WEATHER'() {
                 this.load()
-            }
+            },
         }
     }
 </script>
@@ -124,6 +153,7 @@
 
 <style scoped lang="scss">
     @import "../assets/scss/variables.scss";
+
 
     .card {
         width: $card__widht;
@@ -136,10 +166,38 @@
         flex-direction: column;
         cursor: pointer;
 
+
         &:hover {
-            box-shadow: -2px -2px 4px rgba(56, 53, 45, .3), 2px 4px 4px hsla(0, 0%, 100%, .5), inset 1px 1px 1px rgba(224, 234, 249, .5);
-            transform: scale(1.04);
+            box-shadow: $shadow-main;
+            transform: scale(1.02);
         }
+
+
+        /* Состояния погоды */
+        &__state {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+
+            &.Clear {
+                box-shadow: inset 120px 120px 100px -120px rgba(255, 166, 0, 0.2) !important;
+            }
+
+            &.Clouds {
+                box-shadow: inset 120px 120px 100px -120px rgba(211, 211, 211, .5);
+            }
+
+            &.Snow {
+                box-shadow: inset 120px 120px 100px -120px rgba(248, 248, 255, 1);
+            }
+
+            &.Rain {
+                box-shadow: inset 120px 120px 100px -120px rgba(196, 211, 239, .5);
+            }
+        }
+
 
         .card__item {
             display: flex;
@@ -159,7 +217,7 @@
             }
 
             &__bottom {
-                margin-top: auto !important;
+                margin-top: auto;
             }
 
             span.sub {
@@ -172,6 +230,12 @@
             &.title {
                 font-size: 24px;
                 font-weight: 500;
+                line-height: 32px;
+                white-space: nowrap;
+                span{
+                    overflow-x: hidden;
+                    text-overflow: ellipsis;
+                }
             }
 
             &.main {
@@ -206,6 +270,7 @@
 
                     display: inline-flex;
                     align-items: center;
+                    margin: .25rem 0;
 
                     span {
                         font-size: 14px;
@@ -214,6 +279,9 @@
                     span.label {
                         padding: .25rem .3rem;
                         font-weight: 500;
+                        background: transparent;
+
+                        box-shadow: none;
                     }
 
                     span.text {
@@ -223,8 +291,41 @@
             }
         }
 
-        button{
-            background: transparent;
+    }
+
+
+    /* Капли под контентом */
+    .card {
+        /* Капли в карточке */
+        position: relative;
+
+        .card__item, .card__buttons {
+            position: relative;
+            z-index: 999999;
+        }
+    }
+
+
+    .card__buttons {
+        * > {
+            margin: 0 .5rem !important;
+        }
+
+        display: flex;
+        justify-content: space-between;
+
+
+        .button {
+            border-radius: 25px;
+            padding: .75rem;
+            min-width: 44px;
+
+            background: $bg;
+            box-shadow: $shadow-second;
+
+            &:hover {
+                box-shadow: $shadow-main;
+            }
         }
 
     }
