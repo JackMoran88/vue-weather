@@ -1,7 +1,7 @@
 <template>
     <div class="v-chart container" v-if="data && data.x.length > 1">
         <div class="v-chart__header">
-            <h5> График температуры за {{data.len}} часов</h5>
+            <h5> График температуры на {{data.len}} часов</h5>
         </div>
         <div class="v-chart__body"
              :style="{height:`${this.data.height}px`}"

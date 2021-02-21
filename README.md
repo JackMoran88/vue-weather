@@ -24,3 +24,17 @@ npm run build
 ```
 serve -s dist 
 ```
+
+### Description
+Приложение на Vue.js, позволяющее просматривать погоду по городам, с возможностью увидеть прогноз погоды наперед.
+
+Использованный API:
+  - OpenWeatherMap
+
+При создании использовалось:
+ - Vue.js  
+ - Vuex  
+ - Vue-router  
+ - axios  
+ - sass  
+ - eslint
