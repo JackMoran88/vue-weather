@@ -1,6 +1,11 @@
 # vue-weather
 
-## Project setup
+## Download repo
+```
+git clone http://
+```
+
+### Project setup
 ```
 npm install
 ```
@@ -15,5 +20,7 @@ npm run serve
 npm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Run the built app
+```
+serve -s dist 
+```

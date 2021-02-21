@@ -1,18 +1,10 @@
 <template>
     <div class="detail" v-if="DETAILED_WEATHER.city">
-        <!--        <h1>-->
-        <!--            {{DETAILED_WEATHER.city.name}} <span>{{DETAILED_WEATHER.city.country}}</span>-->
-        <!--        </h1>-->
 
         <v-card
                 :weather="DETAILED_WEATHER.list[0]"
                 :buttons="false"
         />
-
-
-<!--        <div v-for="value in DETAILED_WEATHER.list">-->
-<!--            <p>{{new Date(value.dt * 1000)}}</p>-->
-<!--        </div>-->
 
         <div class="tab">
 

@@ -12,6 +12,13 @@
                     :hour="hour"
                     :offset="data.offset"
             />
+
+            <v-chart-time
+                    v-for="hour in hours"
+                    :hour="hour"
+                    :offset="data.offset"
+            />
+
         </div>
     </div>
 </template>
@@ -19,11 +26,12 @@
 <script>
     import {mapGetters} from "vuex";
     import vChartElement from '@/components/charts/v-chart-element'
+    import vChartTime from '@/components/charts/v-chart-time'
 
     export default {
         name: "v-chart",
         components: {
-            vChartElement,
+            vChartElement,vChartTime,
         },
         data() {
             return {
@@ -54,13 +62,13 @@
                 this.$set(this.data, 'len', this.DETAILED_WEATHER.list.length)
                 //Вычисление высоты графика
                 this.data.height = Math.abs(Math.max(...this.data.y.map((value) => {
-                    return (value - this.data.tempMin) * 10 + 20
+                    return (value - this.data.tempMin) * 10 + 50
                 }))) + 50
                 //Заполнение данных для графика
                 for (let index = 0; index < 40; index++) {
                     let hour = {
                         number: index,
-                        y: (this.data.y[index] - this.data.tempMin) * 10 + 20,
+                        y: (this.data.y[index] - this.data.tempMin) * 10 + 50,
                         text: Math.round(this.data.y[index]),
                         time: `${this.data.x[index]}:00`,
                     }

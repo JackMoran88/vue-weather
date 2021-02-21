@@ -120,7 +120,7 @@ export default new Vuex.Store({
                         if (error.response.data.message) {
                             commit('ADD_ALERT', {type: 'error', text: error.response.data.message})
                         }
-                        reject(error)
+                        // reject(error)
                     })
             })
         },

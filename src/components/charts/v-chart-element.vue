@@ -1,10 +1,10 @@
 <template>
     <div class="v-chart__element"
          :class="{'coldly': hour.text <= 0, 'warmly': hour.text > 0}"
-         :style="{'left': hour.number * offset + 'px', 'bottom': hour.y +'px'}"
+         :style="{'left': hour.number * offset + 10 + 'px', 'bottom': hour.y +'px'}"
          :title="hour.time"
     >
-        {{hour.text}}
+        <span>{{hour.text}}</span>
     </div>
 </template>
 
@@ -31,12 +31,15 @@
         justify-content: center;
         align-items: center;
 
-        width: 10px;
-        height: 10px;
-        padding: .5rem 1.2rem;
+        width: 50px;
 
-        border-radius: 25px;
-        box-shadow: $shadow-main;
+        span{
+            width: 40px;
+            border-radius: 25px;
+
+            text-align: center;
+            box-shadow: $shadow-main;
+        }
 
         position: absolute;
 
@@ -45,13 +48,10 @@
         color: $card__text;
 
         &.coldly {
-            /*border: 1px solid rgba(blue, .2);*/
             color: cornflowerblue;
         }
 
-
         &.warmly {
-            /*border: 1px solid rgba(orange, .2);*/
             color: coral;
         }
     }
