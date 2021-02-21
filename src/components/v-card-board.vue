@@ -4,39 +4,40 @@
         <v-card
                 v-else
                 v-for="city in WEATHER"
+                :key="city.id"
                 :weather="city"
         />
     </div>
 </template>
 
 <script>
-    import {mapActions, mapGetters, mapMutations} from "vuex";
-    import vCard from '@/components/v-card'
-    export default {
-        name: "v-card-board",
-        components:{
-            vCard,
-        },
-        methods: {
-            load(){
-                this.loadWeather()
-            },
-            loadWeather(){
-                for (let city of this.SELECTED) {
-                    this.GET_WEATHER(city)
-                }
-            },
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import vCard from '@/components/v-card'
+export default {
+  name: 'v-card-board',
+  components: {
+    vCard
+  },
+  methods: {
+    load () {
+      this.loadWeather()
+    },
+    loadWeather () {
+      for (const city of this.SELECTED) {
+        this.GET_WEATHER(city)
+      }
+    },
 
-            ...mapActions(['GET_WEATHER']),
-            ...mapMutations(['REMOVE_CITY']),
-        },
-        computed: {
-            ...mapGetters(['WEATHER', 'SELECTED'])
-        },
-        mounted() {
-            this.load()
-        },
-    }
+    ...mapActions(['GET_WEATHER']),
+    ...mapMutations(['REMOVE_CITY'])
+  },
+  computed: {
+    ...mapGetters(['WEATHER', 'SELECTED'])
+  },
+  mounted () {
+    this.load()
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -54,7 +55,4 @@
 
     }
 
-
 </style>
-
-

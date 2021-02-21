@@ -10,22 +10,22 @@
 </template>
 
 <script>
-    export default {
-        name: "v-button",
-        props: {
-            type: {
-                type: String,
-                default: 'button'
-            },
-            icon: {
-                type: String,
-            },
-            text: {
-                type: String,
-            }
-        }
-
+export default {
+  name: 'v-button',
+  props: {
+    type: {
+      type: String,
+      default: 'button'
+    },
+    icon: {
+      type: String
+    },
+    text: {
+      type: String
     }
+  }
+
+}
 </script>
 
 <style scoped lang="scss">
@@ -37,7 +37,6 @@
         border-radius: 50px;
 
         padding: .6rem;
-
 
         background: transparent;
         box-shadow: $shadow-main;

@@ -14,11 +14,10 @@
 </template>
 
 <script>
-    export default {
-        name: "v-weather-snow"
-    }
+export default {
+  name: 'v-weather-snow'
+}
 </script>
-
 
 <style scoped lang="scss">
 
@@ -27,8 +26,5 @@
 
         font-size: 1em;
     }
-
-
-
 
 </style>

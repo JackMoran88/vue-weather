@@ -7,17 +7,16 @@
 </template>
 
 <script>
-    import vAlert from '@/components/v-alert'
-    import vHeader from '@/components/v-header'
+import vAlert from '@/components/v-alert'
+import vHeader from '@/components/v-header'
 
-    export default {
-        name: "DetailLayout",
-        components: {
-            vAlert, vHeader,
-        }
-    }
+export default {
+  name: 'DetailLayout',
+  components: {
+    vAlert, vHeader
+  }
+}
 </script>
-
 
 <style scoped lang="scss">
 
@@ -32,4 +31,3 @@
     }
 
 </style>
-

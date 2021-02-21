@@ -1,12 +1,9 @@
 $bg: #e1e7f3;
-//$bg: #e0eaf9;
-//$bg: #E0E0E0;
 
 $card__text: #767e89;
 $btn__bg: #9dabc0;
 
 $card__width: 300px;
-
 
 $shadow-main: 2px 2px 4px rgba(56, 53, 45, .3), -2px -4px 4px hsla(0, 0%, 100%, .5), inset 1px 1px 1px rgba(224, 234, 249, .5);
 $shadow-second: 4px 4px 8px rgba(56, 53, 85, 0.3), -4px -4px 8px rgba(255, 255, 255, 0.5), inset 1px 1px 1px rgba(224, 234, 249, 0.5);
@@ -22,7 +19,7 @@ h2, h3, h4, h5, h6 {
 }
 
 
-.snippeter {
+.container {
   box-shadow: $shadow-main;
   border-radius: 65px;
   overflow: hidden;

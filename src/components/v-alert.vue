@@ -1,7 +1,7 @@
 <template>
     <div class="alerts">
-      <transition name="fade" v-for="alert in ALERTS">
-          <div class="alert is-md">
+      <transition name="fade">
+          <div class="alert is-md" v-for="alert in ALERTS" :key="alert.text">
               <font-awesome-icon :icon="['fas', 'info']"/>
               <span class="alert-content">{{alert.text}}</span>
               <button class="alert-dismiss" @click="REMOVE_ALERT(alert)">
@@ -13,27 +13,27 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters, mapMutations} from "vuex";
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
-    export default {
-        name: "v-alert",
-        data() {
-            return {}
-        },
-        methods: {
-            remove() {
-                this.ALERTS.pop
-            },
-            ...mapActions([]),
-            ...mapMutations(['ADD_ALERT','REMOVE_ALERT']),
-        },
-        computed: {
-            ...mapGetters(['ALERTS']),
-        },
-        mounted() {
-            // this.ADD_ALERT({text: 'Првоерка'})
-        }
-    }
+export default {
+  name: 'v-alert',
+  data () {
+    return {}
+  },
+  methods: {
+    remove () {
+      this.ALERTS.pop()
+    },
+    ...mapActions([]),
+    ...mapMutations(['ADD_ALERT', 'REMOVE_ALERT'])
+  },
+  computed: {
+    ...mapGetters(['ALERTS'])
+  },
+  mounted () {
+
+  }
+}
 </script>
 
 <style scoped lang="scss">

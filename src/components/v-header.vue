@@ -11,25 +11,25 @@
 </template>
 
 <script>
-    import vSearch from '@/components/v-search'
-    import vButton from '@/components/elements/buttons/v-button'
+import vSearch from '@/components/v-search'
+import vButton from '@/components/elements/buttons/v-button'
 
-    export default {
-        name: "v-header",
-        components: {
-            vSearch,vButton
-        },
-        props:{
-            toHome:{
-                type: Boolean,
-                default: false,
-            },
-            search:{
-                type: Boolean,
-                default: false,
-            },
-        }
+export default {
+  name: 'v-header',
+  components: {
+    vSearch, vButton
+  },
+  props: {
+    toHome: {
+      type: Boolean,
+      default: false
+    },
+    search: {
+      type: Boolean,
+      default: false
     }
+  }
+}
 </script>
 
 <style scoped lang="scss">

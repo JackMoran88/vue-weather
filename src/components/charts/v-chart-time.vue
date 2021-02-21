@@ -8,18 +8,18 @@
 </template>
 
 <script>
-    export default {
-        name: "v-chart-time",
-        props: {
-            offset: {
-                type: Number,
-            },
-            hour:{
-                type: Object
-            }
-        }
-
+export default {
+  name: 'v-chart-time',
+  props: {
+    offset: {
+      type: Number
+    },
+    hour: {
+      type: Object
     }
+  }
+
+}
 </script>
 
 <style scoped lang="scss">
@@ -34,9 +34,6 @@
         height: 10px;
         padding: .5rem 1.5rem;
 
-        /*border-radius: 25px;*/
-        //box-shadow: $shadow-main;
-
         position: absolute;
 
         font-size: 14px;
@@ -49,7 +46,6 @@
                 border-right: 1px solid $card__text;
             }
         }
-
     }
 
 </style>

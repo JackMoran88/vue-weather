@@ -9,18 +9,18 @@
 </template>
 
 <script>
-    export default {
-        name: "v-chart-element",
-        props: {
-            offset: {
-                type: Number,
-            },
-            hour:{
-                type: Object
-            }
-        }
-
+export default {
+  name: 'v-chart-element',
+  props: {
+    offset: {
+      type: Number
+    },
+    hour: {
+      type: Object
     }
+  }
+
+}
 </script>
 
 <style scoped lang="scss">

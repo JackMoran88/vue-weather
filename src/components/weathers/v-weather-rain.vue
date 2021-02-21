@@ -14,16 +14,15 @@
 </template>
 
 <script>
-    export default {
-        name: "v-weather-rain",
-        props: {
-            type: {
-                type: String
-            }
-        }
+export default {
+  name: 'v-weather-rain',
+  props: {
+    type: {
+      type: String
     }
+  }
+}
 </script>
-
 
 <style scoped lang="scss">
 
@@ -41,6 +40,5 @@
         animation-name: snowflakes-fall;
         animation-duration: 4s;
     }
-
 
 </style>

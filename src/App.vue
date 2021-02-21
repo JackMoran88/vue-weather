@@ -9,26 +9,26 @@
 </template>
 
 <script>
-    import MainLayout from "@/layouts/MainLayout";
-    import DetailLayout from "@/layouts/DetailLayout";
-    import {mapActions, mapGetters, mapMutations} from "vuex";
+import MainLayout from '@/layouts/MainLayout'
+import DetailLayout from '@/layouts/DetailLayout'
+import { mapActions } from 'vuex'
 
-    export default {
-        components: {
-            MainLayout, DetailLayout,
-        },
-        methods: {
-            ...mapActions(['GET_WEATHER_BY_GEO',])
-        },
-        computed: {
-            layout() {
-                return this.$route.meta.layout || 'MainLayout'
-            }
-        },
-        mounted() {
-            this.GET_WEATHER_BY_GEO()
-        },
+export default {
+  components: {
+    MainLayout, DetailLayout
+  },
+  methods: {
+    ...mapActions(['GET_WEATHER_BY_GEO'])
+  },
+  computed: {
+    layout () {
+      return this.$route.meta.layout || 'MainLayout'
     }
+  },
+  mounted () {
+    this.GET_WEATHER_BY_GEO()
+  }
+}
 </script>
 
 <style>
@@ -58,10 +58,8 @@
         width: 100%;
     }
 
-
     * {
         box-sizing: border-box;
     }
-
 
 </style>

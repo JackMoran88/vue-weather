@@ -42,19 +42,19 @@
                             <tbody>
                             <tr>
                                 <td>Температура</td>
-                                <td>{{DETAILED_WEATHER.list[0].main.temp}}<span>&#176C</span></td>
+                                <td>{{DETAILED_WEATHER.list[0].main.temp}}<span>&#176;C</span></td>
                             </tr>
                             <tr>
                                 <td>Ощущается как</td>
-                                <td>{{DETAILED_WEATHER.list[0].main.feels_like}}<span>&#176C</span></td>
+                                <td>{{DETAILED_WEATHER.list[0].main.feels_like}}<span>&#176;C</span></td>
                             </tr>
                             <tr>
                                 <td>Минимальная температура</td>
-                                <td>{{DETAILED_WEATHER.list[0].main.temp_min}}<span>&#176C</span></td>
+                                <td>{{DETAILED_WEATHER.list[0].main.temp_min}}<span>&#176;C</span></td>
                             </tr>
                             <tr>
                                 <td>Максимальная температура</td>
-                                <td>{{DETAILED_WEATHER.list[0].main.temp_max}}<span>&#176C</span></td>
+                                <td>{{DETAILED_WEATHER.list[0].main.temp_max}}<span>&#176;C</span></td>
                             </tr>
                             <tr>
                                 <td>Давление</td>
@@ -90,7 +90,7 @@
                     <div class="tab__body-item" v-if="tab===1" :key="1">
                         <table class="table wind">
                             <div class="tbody">
-                                <tr v-for="hour in DETAILED_WEATHER.list">
+                                <tr v-for="hour in DETAILED_WEATHER.list" :key="hour.text">
                                     <td class="deg">
                                         <font-awesome-icon :icon="['fas', 'location-arrow']"
                                                            :style="{transform: `rotate(${-45 + hour.wind.deg}deg)`}"/>
@@ -111,59 +111,58 @@
 
         </div>
 
-
     </div>
 </template>
 
 <script>
-    import {mapActions, mapGetters, mapMutations} from "vuex";
-    import vChart from '@/components/charts/v-chart'
-    import vButton from '@/components/elements/buttons/v-button'
-    import vCard from '@/components/v-card'
+import { mapActions, mapGetters } from 'vuex'
+import vChart from '@/components/charts/v-chart'
+import vButton from '@/components/elements/buttons/v-button'
+import vCard from '@/components/v-card'
 
-    export default {
-        name: "Detail",
-        components: {
-            vChart, vButton, vCard,
-        },
-        props: {
-            id: {
-                type: Number
-            }
-        },
-        data() {
-            return {
-                tab: 0,
-            }
-        },
-        methods: {
-            load() {
-                if (!this.id) {
-                    return
-                }
-
-                this.loadInfo()
-            },
-            loadInfo() {
-                this.GET_DETAILED_WEATHER(this.id).then(() => {
-                    this.$set(this.DETAILED_WEATHER.list[0], 'name', this.DETAILED_WEATHER.city.name)
-                    this.$set(this.DETAILED_WEATHER.list[0], 'id', this.DETAILED_WEATHER.city.id)
-                })
-            },
-
-            choiceTab(value) {
-                this.tab = value
-            },
-            ...mapActions(['GET_DETAILED_WEATHER'])
-        },
-        computed: {
-            ...mapGetters(['DETAILED_WEATHER'])
-        },
-        mounted() {
-            this.load()
-        },
-
+export default {
+  name: 'Detail',
+  components: {
+    vChart, vButton, vCard
+  },
+  props: {
+    id: {
+      type: Number
     }
+  },
+  data () {
+    return {
+      tab: 0
+    }
+  },
+  methods: {
+    load () {
+      if (!this.id) {
+        return
+      }
+
+      this.loadInfo()
+    },
+    loadInfo () {
+      this.GET_DETAILED_WEATHER(this.id).then(() => {
+        this.$set(this.DETAILED_WEATHER.list[0], 'name', this.DETAILED_WEATHER.city.name)
+        this.$set(this.DETAILED_WEATHER.list[0], 'id', this.DETAILED_WEATHER.city.id)
+      })
+    },
+
+    choiceTab (value) {
+      this.tab = value
+    },
+    ...mapActions(['GET_DETAILED_WEATHER'])
+  },
+  computed: {
+    ...mapGetters(['DETAILED_WEATHER'])
+  },
+  mounted () {
+    this.load()
+  }
+
+}
 </script>
 
 <style scoped lang="scss">
@@ -183,8 +182,6 @@
         .card {
             min-width: 300px;
             margin: 0 1rem;
-            /*position: sticky;*/
-            /*top: 0;*/
         }
 
     }

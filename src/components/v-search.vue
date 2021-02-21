@@ -9,29 +9,29 @@
 </template>
 
 <script>
-    import { mapActions} from "vuex";
-    import vButton from '@/components/elements/buttons/v-button'
+import { mapActions } from 'vuex'
+import vButton from '@/components/elements/buttons/v-button'
 
-    export default {
-        name: "v-search",
-        components:{
-            vButton,
-        },
-        data() {
-            return {
-                value: '',
-            }
-        },
-        methods: {
-            click() {
-                if (this.value) {
-                    this.SEARCH_CITY_BY_NAME(this.value)
-                    this.value = ''
-                }
-            },
-            ...mapActions(['SEARCH_CITY_BY_NAME']),
-        }
+export default {
+  name: 'v-search',
+  components: {
+    vButton
+  },
+  data () {
+    return {
+      value: ''
     }
+  },
+  methods: {
+    click () {
+      if (this.value) {
+        this.SEARCH_CITY_BY_NAME(this.value)
+        this.value = ''
+      }
+    },
+    ...mapActions(['SEARCH_CITY_BY_NAME'])
+  }
+}
 </script>
 
 <style scoped lang="scss">

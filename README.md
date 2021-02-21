@@ -2,7 +2,7 @@
 
 ## Download repo
 ```
-git clone http://
+git clone https://github.com/JackMoran88/vue-weather.git
 ```
 
 ### Project setup

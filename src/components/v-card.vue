@@ -1,20 +1,17 @@
 <template>
-    <article class="card snippeter" @click="toggle" :class="{'detail': isOpen}">
-        <div class="card__state" :class="data.state">
-
-        </div>
+    <article class="card container" @click="toggle" :class="{'detail': isOpen}">
+        <div class="card__state" :class="data.state"></div>
 
         <v-weather-snow v-if="data.state === 'Snow'"/>
         <v-weather-rain v-if="data.state === 'Rain'"/>
 
-
         <div class="card__item card__item__center title">
-            <span>{{weather.name}}</span>
+            <span :title="weather.name">{{weather.name}}</span>
         </div>
 
         <div class="card__item main">
             <div class="temp">
-                {{parseInt(weather.main.temp)}}<span>&#176C</span>
+                {{parseInt(weather.main.temp)}}<span>&#176;C</span>
             </div>
             <div class="description">
                 <img :src="`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`"
@@ -26,7 +23,7 @@
 
         <div class="card__item feels">
             Ощущается как
-            {{parseInt(weather.main.feels_like)}}&#176
+            {{parseInt(weather.main.feels_like)}}&#176;
         </div>
 
         <transition name="translateY" mode="out-in">
@@ -34,7 +31,7 @@
 
                 <li>
                     <span class="label">Ветер:</span>
-                    <span class="text">{{weather.wind.speed}}м\с {{calcDeg(weather.wind.deg)}}</span>
+                    <span class="text">{{weather.wind.speed}}м\с </span>
                 </li>
                 <li>
                     <span class="label">Давление:</span>
@@ -59,7 +56,6 @@
                     />
                 </router-link>
 
-
                 <v-button
                         icon="redo-alt"
                         @click.native.stop="GET_WEATHER(weather.id)"
@@ -67,99 +63,83 @@
             </div>
         </transition>
 
-
-
-
     </article>
 </template>
 
 <script>
-    import toCapitalize from '@/filters/toCapitalize'
-    import {mapMutations, mapActions, mapGetters} from "vuex";
-    import vWeatherSnow from '@/components/weathers/v-weather-snow'
-    import vWeatherRain from '@/components/weathers/v-weather-rain'
-    import vButton from '@/components/elements/buttons/v-button'
+import toCapitalize from '@/filters/toCapitalize'
+import { mapMutations, mapActions, mapGetters } from 'vuex'
+import vWeatherSnow from '@/components/weathers/v-weather-snow'
+import vWeatherRain from '@/components/weathers/v-weather-rain'
+import vButton from '@/components/elements/buttons/v-button'
 
-
-    export default {
-        name: "v-card",
-        components: {
-            vWeatherSnow, vWeatherRain, vButton,
-        },
-        props: {
-            weather: {
-                type: Object,
-            },
-            buttons:{
-                type: Boolean,
-                default: true
-            }
-        },
-        filters: {
-            toCapitalize
-        },
-        data() {
-            return {
-                isOpen: false,
-                data: {
-                    name: '',
-                    country: '',
-                    temp: '',
-                    feels_like: '',
-                    description: '',
-                    icon: '',
-
-                    wind: {
-                        speed: '',
-                        deg: '',
-                    },
-
-                    state: ''
-                }
-            }
-        },
-        methods: {
-            load() {
-                this.data.state = this.weather.weather[0].main
-            },
-
-
-            toggle() {
-                if(!this.buttons){
-                    return
-                }
-                this.isOpen = !this.isOpen
-            },
-
-            calcDeg(degree) {
-                let compassSector = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", "N"];
-
-                this.data.wind.deg = compassSector[(degree / 22.5).toFixed(0)];
-
-
-            },
-
-            ...mapActions(['GET_WEATHER']),
-            ...mapMutations(['REMOVE_CITY']),
-        },
-        mounted() {
-            this.load()
-        },
-        computed: {
-            ...mapGetters(['WEATHER'])
-        },
-        watch: {
-            'WEATHER'() {
-                this.load()
-            },
-        }
+export default {
+  name: 'v-card',
+  components: {
+    vWeatherSnow, vWeatherRain, vButton
+  },
+  props: {
+    weather: {
+      type: Object
+    },
+    buttons: {
+      type: Boolean,
+      default: true
     }
-</script>
+  },
+  filters: {
+    toCapitalize
+  },
+  data () {
+    return {
+      isOpen: false,
+      data: {
+        name: '',
+        country: '',
+        temp: '',
+        feels_like: '',
+        description: '',
+        icon: '',
 
+        wind: {
+          speed: '',
+          deg: ''
+        },
+
+        state: ''
+      }
+    }
+  },
+  methods: {
+    load () {
+      this.data.state = this.weather.weather[0].main
+    },
+
+    toggle () {
+      if (!this.buttons) {
+        return
+      }
+      this.isOpen = !this.isOpen
+    },
+    ...mapActions(['GET_WEATHER']),
+    ...mapMutations(['REMOVE_CITY'])
+  },
+  mounted () {
+    this.load()
+  },
+  computed: {
+    ...mapGetters(['WEATHER'])
+  },
+  watch: {
+    'WEATHER' () {
+      this.load()
+    }
+  }
+}
+</script>
 
 <style scoped lang="scss">
     @import "../assets/scss/variables.scss";
-
 
     .card {
         width: $card__width;
@@ -167,17 +147,14 @@
         padding: 2rem;
         border-radius: 65px;
 
-
         display: flex;
         flex-direction: column;
         cursor: pointer;
-
 
         &:hover {
             box-shadow: $shadow-main;
             transform: scale(1.02);
         }
-
 
         /* Состояния погоды */
         &__state {
@@ -203,7 +180,6 @@
                 box-shadow: inset 120px 120px 100px -120px rgba(196, 211, 239, .5);
             }
         }
-
 
         .card__item {
             display: flex;
@@ -248,7 +224,6 @@
                 .temp {
                     display: flex;
 
-
                     font-size: 48px;
                     font-weight: 500;
 
@@ -272,7 +247,6 @@
                 font-size: 14px;
                 font-weight: 500;
             }
-
 
             &.list {
                 margin: 0;
@@ -309,7 +283,6 @@
 
     }
 
-
     /* Капли под контентом */
     .card {
         /* Капли в карточке */
@@ -321,7 +294,6 @@
         }
     }
 
-
     .card__buttons {
         * > {
             margin: 0 .5rem !important;
@@ -329,7 +301,6 @@
 
         display: flex;
         justify-content: space-between;
-
 
         .button {
             border-radius: 25px;
@@ -346,6 +317,4 @@
 
     }
 
-
 </style>
-
