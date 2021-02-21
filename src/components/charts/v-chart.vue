@@ -9,12 +9,14 @@
         >
             <v-chart-element
                     v-for="hour in hours"
+                    :key="hour.y"
                     :hour="hour"
                     :offset="data.offset"
             />
 
             <v-chart-time
                     v-for="hour in hours"
+                    :key="hour.y"
                     :hour="hour"
                     :offset="data.offset"
             />
