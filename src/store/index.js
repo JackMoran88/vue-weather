@@ -41,6 +41,50 @@ export default new Vuex.Store({
             })
         },
 
+        GET_WEATHER_BY_GEO({commit}) {
+            if (getCookie('geolocation')) {
+                return
+            }
+            //Объект для заполнение кукыов
+            let cookie = {
+                name: 'geolocation',
+                value: null,
+            }
+            //Опредение геопозиции
+            let geo = new Promise((resolve) => {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    cookie.value = 1
+                    resolve(pos.coords)
+                })
+            })
+            //Отправка запроса
+            geo.then((query)=>{
+                return new Promise((resolve, reject) => {
+                    return axios(`${this.state.server_url}/weather?lat=${query.latitude}&lon=${query.longitude}&appid=${this.state.api_key}&units=metric&lang=ru`,
+                        {
+                            method: 'POST',
+                        }
+                    )
+                        .then((resp) => {
+                            commit('SET_WEATHER', resp.data)
+                            resolve(resp)
+                        })
+                        .catch((error) => {
+                            if (error.response && error.response.data.message) {
+                                commit('ADD_ALERT', {type: 'error', text: error.response.data.message})
+                            }
+                            reject(error)
+                        })
+                })
+            })
+            //Назначение куков
+            geo.finally(() => {
+                if (cookie.value !== '') {
+                    setCookie(cookie.name, cookie.value)
+                }
+            })
+        },
+
         GET_DETAILED_WEATHER({commit}, query) {
             return new Promise((resolve, reject) => {
                 return axios(`${this.state.server_url}/forecast?id=${query}&appid=${this.state.api_key}&units=metric&lang=ru`,
@@ -60,7 +104,6 @@ export default new Vuex.Store({
                     })
             })
         },
-
 
         SEARCH_CITY_BY_NAME({commit}, query) {
             return new Promise((resolve, reject) => {
@@ -105,22 +148,21 @@ export default new Vuex.Store({
                 let index = state.weather.indexOf(state.weather.find(v => v.id === data.id));
                 Vue.set(state.weather, index, data)
             } else {
-                console.log('New city')
                 state.weather.push(data)
 
                 if (!state.selected.includes(data.id.toString())) {
                     state.selected.push(data.id.toString())
+                    setCookie('selected', state.selected.sort())
                 }
             }
 
             //Сортировка массива городов, по id
             state.weather = state.weather.sort(dynamicSort('id'))
 
-            setCookie('selected', state.selected)
         },
 
         SET_DETAILED_WEATHER: (state, data) => {
-            state.detailed_weather = data
+            Vue.set(state, 'detailed_weather', data)
         },
 
 
@@ -129,18 +171,16 @@ export default new Vuex.Store({
             if (index !== -1) {
                 state.selected.splice(index, 1);
 
-                state.weather = state.weather.filter(function (obj) {
+                Vue.set(state, 'weather', state.weather.filter(function (obj) {
                     return obj.id !== data;
-                });
+                }))
 
             }
 
-            console.log(state.selected)
-            setCookie('selected', state.selected)
+            setCookie('selected', state.selected.sort())
         },
 
         ADD_ALERT: (state, data) => {
-            console.log(data)
             state.alerts.push(data)
             setTimeout(function () {
                 state.alerts = state.alerts.filter(function (obj) {
@@ -150,9 +190,9 @@ export default new Vuex.Store({
 
         },
         REMOVE_ALERT: (state, data) => {
-            state.alerts = state.alerts.filter(function (obj) {
+            Vue.set(state, 'alerts', state.alerts.filter(function (obj) {
                 return obj !== data;
-            });
+            }))
         }
     },
 
@@ -174,8 +214,8 @@ function getCookie(cookiename) {
 
 //Назначение печенья
 function setCookie(name, value) {
-    console.log('New Cookie')
-    document.cookie = `${name}=${value.sort()}`
+    document.cookie = `${name}=${value}; path=/`
+    document.cookie = `${name}=${value}; path=/detail`
 }
 
 //Сортирует массив объектов по ключу

@@ -2,25 +2,24 @@ $bg: #e1e7f3;
 //$bg: #e0eaf9;
 //$bg: #E0E0E0;
 
-$card__bg: #e1e7f3;
 $card__text: #767e89;
 $btn__bg: #9dabc0;
 
-$card__widht: 300px;
+$card__width: 300px;
 
 
 $shadow-main: 2px 2px 4px rgba(56, 53, 45, .3), -2px -4px 4px hsla(0, 0%, 100%, .5), inset 1px 1px 1px rgba(224, 234, 249, .5);
 $shadow-second: 4px 4px 8px rgba(56, 53, 85, 0.3), -4px -4px 8px rgba(255, 255, 255, 0.5), inset 1px 1px 1px rgba(224, 234, 249, 0.5);
 
 
-h1, h2, h3, h4, h5, h6 {
+h2, h3, h4, h5, h6 {
   margin: 0;
 }
+
 
 .button, .buttons, .label {
   margin: 0 !important;
 }
-
 
 
 .snippeter {
@@ -52,7 +51,6 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateX(0px)
   }
 }
-
 
 
 .snowflakes {
@@ -128,8 +126,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-
-
 // transitions
 
 .fade-enter-active, .fade-leave-active {
@@ -143,8 +139,6 @@ h1, h2, h3, h4, h5, h6 {
 
 
 .translateY-enter-active {
-  animation-delay: .5s;
-
   animation-duration: .5s;
   animation-fill-mode: both;
   animation-name: translateY;
@@ -167,12 +161,78 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(100%);
   }
 
-  75% {
-    opacity: .5;
-  }
   100% {
     opacity: 1;
   }
 }
 
+
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.component-fade-enter-from,
+.component-fade-leave-to {
+  opacity: 0;
+}
+
+
+.flip-enter-active {
+  transition: all .2s cubic-bezier(0.55, 0.085, 0.68, 0.53); //ease-in-quad
+}
+
+.flip-leave-active {
+  transition: all .25s cubic-bezier(0.25, 0.46, 0.45, 0.94); //ease-out-quad
+}
+
+.flip-enter, .flip-leave-to {
+  transform: scaleY(0) translateZ(0);
+  opacity: 0;
+}
+
+
+// Scroll
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $card__text;
+  border: 0px none #ffffff;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #000000;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border: 0px none #ffffff;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background: #666666;
+}
+
+::-webkit-scrollbar-track:active {
+  background: #333333;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
 

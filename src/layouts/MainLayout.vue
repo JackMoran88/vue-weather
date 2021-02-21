@@ -1,6 +1,6 @@
 <template>
     <div class="main-layout">
-        <v-header/>
+        <v-header :search="true"/>
         <router-view/>
         <v-alert/>
     </div>

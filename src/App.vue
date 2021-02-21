@@ -1,23 +1,32 @@
 <template>
     <div id="app">
-        <component :is="layout">
-            <router-view/>
-        </component>
+        <transition name="component-fade">
+            <component :is="layout">
+                <router-view/>
+            </component>
+        </transition>
     </div>
 </template>
 
 <script>
     import MainLayout from "@/layouts/MainLayout";
     import DetailLayout from "@/layouts/DetailLayout";
+    import {mapActions, mapGetters, mapMutations} from "vuex";
 
     export default {
         components: {
             MainLayout, DetailLayout,
         },
+        methods: {
+            ...mapActions(['GET_WEATHER_BY_GEO',])
+        },
         computed: {
             layout() {
                 return this.$route.meta.layout || 'MainLayout'
             }
+        },
+        mounted() {
+            this.GET_WEATHER_BY_GEO()
         },
     }
 </script>

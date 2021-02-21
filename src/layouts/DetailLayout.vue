@@ -20,9 +20,9 @@
 
 
 <style scoped lang="scss">
+
     @import "../assets/scss/variables.scss";
     @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Varela+Round&display=swap");
-
 
     .detail-layout {
         background: $bg;
@@ -30,7 +30,6 @@
         height: 100%;
         padding: 1rem;
     }
-
 
 </style>
 

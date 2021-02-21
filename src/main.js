@@ -14,11 +14,16 @@ import {
     faSearch,
     faTimes,
     faTrashAlt,
-    faChevronLeft
+    faChevronLeft,
+    faArrowUp,
+    faLocationArrow
 } from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
-library.add(faRedoAlt, faTrashAlt, faSearch, faPlus, faTimes, faExclamation, faInfo, faChevronLeft)
+library.add(faRedoAlt, faTrashAlt, faSearch,
+    faPlus, faTimes, faExclamation,
+    faInfo, faChevronLeft, faArrowUp,
+    faLocationArrow,)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 
