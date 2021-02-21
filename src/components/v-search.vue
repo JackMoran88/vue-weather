@@ -42,7 +42,7 @@
         padding: .3rem .6rem;
         border-radius: 50px;
 
-        background: $card__bg;
+        background: transparent;
         color: $card__text;
         box-shadow: $shadow-main;
 

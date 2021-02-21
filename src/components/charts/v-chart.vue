@@ -1,19 +1,16 @@
 <template>
     <div class="v-chart snippeter" v-if="data && data.x.length > 1">
         <div class="v-chart__header">
-            <h5> График температуры за {{hours.len}} часов</h5>
+            <h5> График температуры за {{data.len}} часов</h5>
         </div>
 
         <div class="v-chart__body"
-             :style="{width: `${this.hours.len * this.hours.offset}px`, height:`${Math.max(...this.hours.y) + 100}px`}"
+             :style="{height:`${this.data.height}px`}"
         >
             <v-chart-element
-                    v-for="index in 40" :key="index"
-
-                    :text="`${hours.text[index-1]}`"
-                    :number="index-1"
-                    :y="hours.y[index-1]"
-                    :offset="hours.offset"
+                    v-for="hour in hours"
+                    :hour="hour"
+                    :offset="data.offset"
             />
         </div>
     </div>
@@ -34,14 +31,10 @@
                     x: [],
                     y: [],
                     tempMin: 0,
+                    tempMax: 0,
+                    offset: 48,
                 },
-
-                hours: {
-                    text: [],
-                    y: [],
-                    offset: 32,
-                    len: 40,
-                }
+                hours: [],
             }
         },
         methods: {
@@ -55,17 +48,24 @@
             loadChart() {
                 //Минимальная температура
                 this.$set(this.data, 'tempMin', Math.min(...this.data.y))
+                //Максимальная температура
+                this.$set(this.data, 'tempMax', Math.max(...this.data.y))
                 //Длина выборки
-                this.$set(this.hours, 'len', this.DETAILED_WEATHER.list.length)
-                //Координаты по y
-                this.$set(this.hours, 'y', this.data.y.map((value) => {
-                    return value / this.data.tempMin * 200
-                }))
-
-                //Округленная температура
-                this.$set(this.hours, 'text', this.data.y.map((value) => {
-                    return Math.round(value)
-                }))
+                this.$set(this.data, 'len', this.DETAILED_WEATHER.list.length)
+                //Вычисление высоты графика
+                this.data.height = Math.abs(Math.max(...this.data.y.map((value) => {
+                    return (value - this.data.tempMin) * 10 + 20
+                }))) + 50
+                //Заполнение данных для графика
+                for (let index = 0; index < 40; index++) {
+                    let hour = {
+                        number: index,
+                        y: (this.data.y[index] - this.data.tempMin) * 10 + 20,
+                        text: Math.round(this.data.y[index]),
+                        time: `${this.data.x[index]}:00`,
+                    }
+                    this.$set(this.hours, index, hour)
+                }
             }
         },
         computed: {
@@ -85,9 +85,9 @@
 <style scoped lang="scss">
 
     .v-chart {
-        overflow-x: auto;
-        overflow-y: hidden;
+        overflow: auto;
         width: 100%;
+        border-radius: 16px !important;
 
         display: flex;
         flex-direction: column;
@@ -103,9 +103,11 @@
             height: 100%;
 
             margin: 0 auto;
+
+            overflow: auto;
+
         }
 
     }
-
 
 </style>

@@ -1,8 +1,10 @@
 <template>
     <div class="v-chart__element"
-         :style="{'left': number * offset + 'px', 'top': y + offset*1.5  + 'px'}"
+         :class="{'coldly': hour.text <= 0, 'warmly': hour.text > 0}"
+         :style="{'left': hour.number * offset + 'px', 'bottom': hour.y +'px'}"
+         :title="hour.time"
     >
-        {{text}}
+        {{hour.text}}
     </div>
 </template>
 
@@ -10,18 +12,11 @@
     export default {
         name: "v-chart-element",
         props: {
-            text: {
-                type: String,
-            },
-            number: {
-                type: Number,
-            },
-            y: {
-                type: Number,
-                default: 0
-            },
             offset: {
                 type: Number,
+            },
+            hour:{
+                type: Object
             }
         }
 
@@ -36,20 +31,29 @@
         justify-content: center;
         align-items: center;
 
-        width: 30px;
-        height: 15px;
-        padding: 1rem;
+        width: 10px;
+        height: 10px;
+        padding: .5rem 1.2rem;
+
         border-radius: 25px;
+        box-shadow: $shadow-main;
 
         position: absolute;
 
-        font-size: 12px;
+        font-size: 14px;
 
         color: $card__text;
 
+        &.coldly {
+            /*border: 1px solid rgba(blue, .2);*/
+            color: cornflowerblue;
+        }
 
-        background: $card__bg;
-        box-shadow: $shadow-second;
+
+        &.warmly {
+            /*border: 1px solid rgba(orange, .2);*/
+            color: coral;
+        }
     }
 
 </style>

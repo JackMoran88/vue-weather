@@ -34,7 +34,6 @@
             ...mapGetters(['WEATHER', 'SELECTED'])
         },
         mounted() {
-            console.log(document.cookie)
             this.load()
         },
     }

@@ -14,7 +14,7 @@
 
         <div class="card__item main">
             <div class="temp">
-                {{parseInt(weather.main.temp)}}<span>&#176</span>
+                {{parseInt(weather.main.temp)}}<span>&#176C</span>
             </div>
             <div class="description">
                 <img :src="`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`"
@@ -29,8 +29,8 @@
             {{parseInt(weather.main.feels_like)}}&#176
         </div>
 
-        <transition name="translateY">
-            <ul class="card__item list" v-show="isOpen">
+        <transition name="translateY" mode="out-in">
+            <ul class="card__item list" v-if="isOpen || !buttons" :key="1">
 
                 <li>
                     <span class="label">Ветер:</span>
@@ -45,20 +45,17 @@
                     <span class="text">{{weather.main.humidity}}%</span>
                 </li>
             </ul>
-        </transition>
-
-        <transition name="translateY">
-            <div class="card__buttons card__item__bottom" v-show="!isOpen">
+            <div class="card__buttons card__item__bottom" v-if="!isOpen && buttons" :key="0">
                 <v-button @click.native.stop="REMOVE_CITY(weather.id)"
-                    icon="trash-alt"
+                          icon="trash-alt"
                 />
 
                 <router-link
                         :to="{name: 'Detail', params:{id: weather.id}}"
                 >
                     <v-button
-                        class="MORE"
-                        text="Подробнее"
+                            class="MORE"
+                            text="Подробнее"
                     />
                 </router-link>
 
@@ -69,6 +66,8 @@
                 />
             </div>
         </transition>
+
+
 
 
     </article>
@@ -90,6 +89,10 @@
         props: {
             weather: {
                 type: Object,
+            },
+            buttons:{
+                type: Boolean,
+                default: true
             }
         },
         filters: {
@@ -122,6 +125,9 @@
 
 
             toggle() {
+                if(!this.buttons){
+                    return
+                }
                 this.isOpen = !this.isOpen
             },
 
@@ -156,7 +162,7 @@
 
 
     .card {
-        width: $card__widht;
+        width: $card__width;
         height: 275px;
         padding: 2rem;
         border-radius: 65px;
@@ -240,10 +246,18 @@
 
             &.main {
                 .temp {
+                    display: flex;
+
+
                     font-size: 48px;
                     font-weight: 500;
 
                     width: 50%;
+
+                    > span{
+                        padding: .5rem 0;
+                        font-size: 22px;
+                    }
                 }
 
                 .description {
@@ -278,6 +292,8 @@
 
                     span.label {
                         padding: .25rem .3rem;
+                        padding-left: 0;
+
                         font-weight: 500;
                         background: transparent;
 

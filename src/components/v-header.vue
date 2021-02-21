@@ -6,7 +6,7 @@
                 style="height: 50px; width: 50px"
             />
         </router-link>
-        <v-search/>
+        <v-search v-if="search"/>
     </div>
 </template>
 
@@ -23,7 +23,11 @@
             toHome:{
                 type: Boolean,
                 default: false,
-            }
+            },
+            search:{
+                type: Boolean,
+                default: false,
+            },
         }
     }
 </script>
